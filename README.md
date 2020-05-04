@@ -53,8 +53,8 @@ Fields in Table: `deaths_germany`
 
 ## Sources
 The integrated sources so far consist of:
-* the total COVID-19 cases reported worlwide, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
-* the total all cause deaths reported by the Statistisches Bundesamt in Germany (https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html)
+* the total number of COVID-19 cases reported worlwide, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
+* the total number of all cause deaths reported by the Statistisches Bundesamt in Germany (https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html)
 
 
 ## Results
