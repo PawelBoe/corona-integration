@@ -93,6 +93,7 @@ def total_corona_deaths_germany():
     formatter = mdates.ConciseDateFormatter(locator)
     plt.gca().xaxis.set_major_locator(locator)
     plt.gca().xaxis.set_major_formatter(formatter)
+    plt.gca().grid(True)
 
     plt.plot(t, a, "-b", label="total deaths 2020")
     plt.plot(t, d, ":y", label="total deaths 2019")
