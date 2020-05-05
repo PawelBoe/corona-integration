@@ -68,7 +68,10 @@ The integrated sources so far consist of:
 ## Results
 
 ### Total deaths in relation to corona deaths in germany
-The source code can be found in the function `total_corona_deaths_germany` in `corona_analysis.py`. Because of the registration delay of deaths at the Statistisches Bundesamt the data is not up to date (behind by about 3-4 Weeks). This curve is smoothed by averaging each day with the day before (sliding window smoothing with a window size of 2 and a stride of 1).
+The source code can be found in the function `total_corona_deaths_germany` in `corona_analysis.py`. Because of the registration delay of deaths at the Statistisches Bundesamt the data is not up to date (behind by about 3-5 Weeks). This curve is smoothed by averaging each day with the day before (sliding window smoothing with a window size of 2 and a stride of 1).
+
+**Note**: The death toll underlies dayly (and yearly) fluctuations. Conclusions regarding overlap of deaths due to COVID-19 and deaths that would have occured anyway cannot be drawn solely based on this graph.
+
 ![Corona-vs-total-deaths-germany](results/corona_total_deaths_germany.png)
 
 ### Corona positives compared to total tests
