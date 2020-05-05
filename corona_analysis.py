@@ -30,7 +30,7 @@ def positives_to_tests_germany():
         positives.append(item.positives / 1000)
         positives_ratio.append((item.positives / item.tests))
 
-    plt.suptitle('Corona tests and positives compared\n(Sources: EU Open Data Portal, Robert Koch Institute Germany)')
+    plt.suptitle('Corona tests and positives compared\n(Source: Robert Koch Institute Germany)')
 
     plt.subplot(2, 1, 1)
     ax1 = plt.gca()
