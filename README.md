@@ -62,6 +62,7 @@ Fields in Table `rki_tests`
 The integrated sources so far consist of:
 * the total number of COVID-19 cases reported worlwide, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
 * the total number of all cause deaths reported by the Statistisches Bundesamt in Germany (https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html)
+* the total number of corona tests performed reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/2020-04-29-de.pdf)
 
 
 ## Results
