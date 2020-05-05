@@ -50,6 +50,13 @@ Fields in Table: `deaths_germany`
 * deaths (deaths 
 * processed (time of insertion into database)
 
+Fields in Table `rki_tests`
+* calendar week
+* tests
+* positives
+* participating laboratories
+* processed (time of insertion into database)
+
 
 ## Sources
 The integrated sources so far consist of:
