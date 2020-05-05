@@ -4,6 +4,8 @@ import csv
 import datetime
 import urllib.request
 import pandas as pd
+import pdfplumber
+import re
 
 import corona_config as cfg
 
@@ -11,6 +13,7 @@ from models.BaseModel import db
 from models.CoronaCases import CoronaCases
 from models.DeathsGermany import DeathsGermany
 from models.CountryData import CountryData
+from models.RkiTests import RkiTests
 
 
 def safe_cast(val, to_type, default=None):
@@ -63,6 +66,7 @@ def create_database():
     create_tables()
     import_corona_cases()
     import_deaths_germany()
+    import_rki_report()
 
 
 def main():
@@ -86,7 +90,8 @@ def create_tables():
     db_models = [
         CoronaCases,
         CountryData,
-        DeathsGermany
+        DeathsGermany,
+        RkiTests
     ]
     db.drop_tables(db_models)
     db.create_tables(db_models)
@@ -147,6 +152,48 @@ def import_deaths_germany():
                         age_group_end = safe_cast(age[5:8], int, 150),
                         deaths = safe_cast(year[age][day], int, 0)
                     )
+
+def import_rki_report():
+    print("import rki report")
+
+    pattern = "[0-9]{2}  [0-9]{3}.[0-9]{3}  [0-9]+.[0-9]{3} \([0-9]+,[0-9]+%\)  [0-9]+"
+
+    def num(s):
+        try:
+            return int(s)
+        except ValueError:
+            return float(s)
+
+    pdf_file = pdfplumber.open(cfg.path_rki_report)
+    page = pdf_file.pages[7]
+    text = page.extract_text()
+    result = re.findall(pattern, text)
+
+    rows = []
+    for i in result:
+        rows.append(i.split())
+
+    new_rows = []
+    for row in rows:
+        new_row = []
+        for entry in row:
+            entry = entry.replace(".", "")
+            entry = entry.replace("(", "")
+            entry = entry.replace(")", "")
+            entry = entry.replace("%", "")
+            entry = entry.replace(",", ".")
+            new_row.append(num(entry))
+        new_rows.append(new_row)
+
+    with db.transaction():
+        for r in new_rows:
+            RkiTests.create(
+                calendar_week = safe_cast(r[0], int, 0),
+                tests = safe_cast(r[1], int, 0),
+                positives = safe_cast(r[2], int, 0),
+                # ignore percentage column
+                participating_laboratories = safe_cast(r[4], int, 0)
+            )
 
 
 if __name__ == '__main__':
