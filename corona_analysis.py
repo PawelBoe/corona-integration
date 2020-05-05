@@ -2,14 +2,71 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.ticker import FuncFormatter as frmt
 
 from models.BaseModel import db
 from models.CoronaCases import CoronaCases
 from models.DeathsGermany import DeathsGermany
+from models.RkiTests import RkiTests
 
 
 def main():
+    cases_to_tests_germany()
     total_corona_deaths_germany()
+
+def cases_to_tests_germany():
+    query_tests = RkiTests\
+            .select()\
+            .order_by(RkiTests.calendar_week)
+
+    time = []
+    tests = []
+    positives = []
+    positives_ratio = []
+    
+    for item in query_tests:
+        time.append(item.calendar_week)
+        tests.append(item.tests / 1000)
+        positives.append(item.positives / 1000)
+        positives_ratio.append((item.positives / item.tests))
+
+    plt.subplot(2, 1, 1)
+    ax1 = plt.gca()
+    ax1.grid(True)
+    color = 'tab:blue'
+    ax1.set_xlabel('Calendar Week')
+    ax1.set_ylabel('Tests (in thousands)', color=color)
+    ax1.plot(time, tests, color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+    ax2 = ax1.twinx()
+    color = 'tab:red'
+    ax2.set_ylabel('Positives Ratio', color=color)
+    ax2.plot(time, positives_ratio, color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+    ax1.set_ylim([0, 500])
+    ax2.set_ylim([0, 0.25])
+
+    plt.subplot(2, 1, 2)
+    ax1 = plt.gca()
+    ax1.grid(True)
+    color = 'tab:blue'
+    ax1.set_xlabel('Calendar Week')
+    ax1.set_ylabel('Tests (in thousands)', color=color)
+    ax1.plot(time, tests, color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+    ax2 = ax1.twinx()
+    color = 'tab:red'
+    ax2.set_ylabel('Ablsolute Positives (in thousands)', color=color)
+    ax2.plot(time, positives, color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+    ax1.set_ylim([0, 500])
+    ax2.set_ylim([0, 50])
+
+
+    plt.show()
+
+    plt.suptitle('COVID-19 tests performed in Germany\n(Sources: EU Open Data Portal, Robert Koch Institute)')
+
 
 def total_corona_deaths_germany():
     query_2020 = CoronaCases\
