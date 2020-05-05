@@ -11,13 +11,13 @@ from models.RkiTests import RkiTests
 
 
 def main():
-    cases_to_tests_germany()
+    positives_to_tests_germany()
     total_corona_deaths_germany()
 
-def cases_to_tests_germany():
+def positives_to_tests_germany():
     query_tests = RkiTests\
-            .select()\
-            .order_by(RkiTests.calendar_week)
+        .select()\
+        .order_by(RkiTests.calendar_week)
 
     time = []
     tests = []
@@ -29,6 +29,8 @@ def cases_to_tests_germany():
         tests.append(item.tests / 1000)
         positives.append(item.positives / 1000)
         positives_ratio.append((item.positives / item.tests))
+
+    plt.suptitle('Corona tests and positives compared\n(Sources: EU Open Data Portal, Robert Koch Institute Germany)')
 
     plt.subplot(2, 1, 1)
     ax1 = plt.gca()
