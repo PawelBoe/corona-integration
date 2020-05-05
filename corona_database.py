@@ -47,7 +47,12 @@ def download():
     for s in cfg.data_sources:
         link, current, _ = s
         try:
-            with urllib.request.urlopen(link) as url_file:
+            user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+
+            headers={'User-Agent':user_agent,}
+
+            request=urllib.request.Request(link, None, headers)
+            with urllib.request.urlopen(request) as url_file:
                 with open (current, "wb") as output:
                     output.write(url_file.read())
         except Exception as e:
