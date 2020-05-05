@@ -13,9 +13,9 @@ To install the required packages run the following commands:
 
 
 ## Creating the database
-If you follow these steps you will find a `data.sqlite` file in the `/data` folder which will contain all the integrated datasets in its tables.
+If you follow these steps you will find a `data.sqlite` file in the `/data` folder which will contain all the integrated datasets in its tables. Once the original data sources change you can re-run the download and create commands to update the database.
 
-### Download the datasets
+### Downloading the datasets
 `python corona_database.py --download;`
 
 ### Creating backups
