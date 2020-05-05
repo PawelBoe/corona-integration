@@ -74,5 +74,5 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 ### Corona positives compared to total tests
 The source code can be found in the function `cases_to_tests_germany` in `corona_analysis.py`. 
 
-![Corona-positives-vs-tests-germany](results/test_positives_ratio_germany.png)
+![Corona-positives-vs-tests-germany](results/tests_positives_ratio_germany.png)
 
