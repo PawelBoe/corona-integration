@@ -56,7 +56,7 @@ def cases_to_tests_germany():
     ax1.tick_params(axis='y', labelcolor=color)
     ax2 = ax1.twinx()
     color = 'tab:red'
-    ax2.set_ylabel('Ablsolute Positives (in thousands)', color=color)
+    ax2.set_ylabel('Absolute Positives (in thousands)', color=color)
     ax2.plot(time, positives, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
     ax1.set_ylim([0, 500])
