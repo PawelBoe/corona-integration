@@ -11,8 +11,58 @@ from models.RkiTests import RkiTests
 
 
 def main():
+    corona_cases_germany()
     positives_to_tests_germany()
     total_corona_deaths_germany()
+
+def corona_cases_germany():
+    query = CoronaCases\
+        .select()\
+        .where(CoronaCases.geo_id == "DE")\
+        .where(CoronaCases.date_reported >= "2020-02-15")\
+        .order_by(CoronaCases.date_reported)
+
+    time = []
+    cases = []
+    deaths = []
+    for item in query:
+        time.append(item.date_reported)
+        cases.append(item.cases)
+        deaths.append(item.deaths)
+
+    t = []
+    a = []
+    b = []
+    window = 4
+    stride = 1
+    for i in range(0, len(time) - (window-1), stride):
+        t.append(time[i+window-1])
+        a.append((sum(cases[i:i+window])) / window)
+        b.append((sum(deaths[i:i+window])) / window)
+
+    plt.suptitle('New Corona Cases in Germany\n(Source: EU Open Data Portal)')
+
+    ax1 = plt.gca()
+    color = 'tab:blue'
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel('New Cases', color=color)
+    ax1.plot(t, a, color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+    ax2 = ax1.twinx()
+    color = 'tab:red'
+    ax2.set_ylabel('New Deaths', color=color)
+    ax2.plot(t, b, color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+    ax1.set_ylim([0, 7000])
+    ax2.set_ylim([0, 350])
+    locator = mdates.AutoDateLocator()
+    formatter = mdates.ConciseDateFormatter(locator)
+    ax1.xaxis.set_major_locator(locator)
+    ax1.xaxis.set_major_formatter(formatter)
+    ax1.grid(True)
+
+    plt.show()
+
 
 def positives_to_tests_germany():
     query_tests = RkiTests\

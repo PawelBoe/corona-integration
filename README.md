@@ -72,10 +72,15 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 
 **Note**: The death toll underlies daily (and yearly) fluctuations. Statistically significant conclusions regarding overlap of deaths due to COVID-19 and deaths that would have occured anyway cannot be drawn based on this graph.
 
-![Corona-vs-total-deaths-germany](results/corona_total_deaths_germany.png)
+![](results/corona_total_deaths_germany.png)
+
+### Corona new cases/deaths per day in germany
+The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 3 days before (sliding window smoothing with a window size of 4 and a stride of 1).
+
+![](results/corona_new_cases_germany.png)
 
 ### Corona positives compared to total tests
 The source code can be found in the function `positives_to_tests_germany` in `corona_analysis.py`. 
 
-![Corona-positives-vs-tests-germany](results/test_positive_ratio_germany.png)
+![](results/test_positive_ratio_germany.png)
 
