@@ -1,7 +1,7 @@
 # corona-integration
-Integration of different corona virus related datasets into a single database. Contains different statistics and viualizations which are mostly focused on Germany and Europe.
+Integration of different COVID-19 virus related datasets into a single database. Contains different statistics and viualizations which are mostly focused on Germany and Europe.
 
-I have created these scripts to quickly query raw corona data using sql and to be able to run my own statistics on it. I am doing this out of own curiosity. If this helps anyone, please feel free to use this as a start for your own analysis.
+I have created these scripts to quickly query raw COVID-19 data using sql and to be able to run my own statistics on it. I am doing this out of own curiosity. If this helps anyone, please feel free to use this as a start for your own analysis.
 
 
 ## Getting started
@@ -62,26 +62,26 @@ Fields in Table `rki_tests`
 The integrated sources so far consist of:
 * the total number of COVID-19 cases reported worlwide, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
 * the total number of all cause deaths in Germany, reported by the Statistisches Bundesamt (https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html)
-* the total number of performed corona tests in Germany, reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/2020-05-06-de.pdf)
+* the total number of performed COVID-19 tests in Germany, reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/2020-05-06-de.pdf)
 
 
 ## Results
 
-### Total deaths in relation to corona deaths in germany
+### Total deaths in relation to COVID-19 deaths in germany
 The source code can be found in the function `total_corona_deaths_germany` in `corona_analysis.py`. Because of the registration delay of deaths at the Statistisches Bundesamt the data is not up to date (behind by about 3-5 Weeks). This curve is smoothed by averaging each day with the day before (sliding window smoothing with a window size of 2 and a stride of 1).
 
 **Note**: The death toll underlies daily (and yearly) fluctuations. Statistically significant conclusions regarding overlap of deaths due to COVID-19 and deaths that would have occured anyway cannot be drawn based on this graph.
 
 ![](results/corona_total_deaths_germany.png)
 
-### Corona new cases/deaths per day in germany
+### New COVID-19 cases/deaths per day in germany
 The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 3 days before (sliding window smoothing with a window size of 4 and a stride of 1).
 
-**Note**: One can see that (if scaled to match) the corona cases and the deaths are correlated by a delay of about 10 to 15 days. This way it may be possible to calculate the death rate for each day in retrospective, by comparing the deaths of each day with the cases of about 10 to 15 days ago.
+**Note**: One can see that (if scaled to match) the COVID-19 cases and the deaths are correlated by a delay of about 10 to 15 days. This way it may be possible to calculate the death rate for each day in retrospective, by comparing the deaths of each day with the cases of about 10 to 15 days ago.
 
 ![](results/corona_new_cases_germany.png)
 
-### Corona positives compared to total tests
+### COVID-19 positives compared to total tests
 The source code can be found in the function `positives_to_tests_germany` in `corona_analysis.py`. 
 
 ![](results/test_positive_ratio_germany.png)
