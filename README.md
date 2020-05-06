@@ -77,6 +77,8 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 ### Corona new cases/deaths per day in germany
 The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 3 days before (sliding window smoothing with a window size of 4 and a stride of 1).
 
+**Note**: One can see that (if scaled to match) the corona cases and the deaths are correlated by a delay of about 10 to 15 days. This way it may be possible to calculate the death rate for each day in retrospective, by comparing the deaths of each day with the cases of about 10 to 15 days ago.
+
 ![](results/corona_new_cases_germany.png)
 
 ### Corona positives compared to total tests
