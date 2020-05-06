@@ -40,7 +40,7 @@ def corona_cases_germany():
         a.append((sum(cases[i:i+window])) / window)
         b.append((sum(deaths[i:i+window])) / window)
 
-    plt.suptitle('New Corona Cases in Germany\n(Source: EU Open Data Portal)')
+    plt.suptitle('New COVID-19 Cases in Germany\n(Source: EU Open Data Portal)')
 
     ax1 = plt.gca()
     color = 'tab:blue'
@@ -80,7 +80,7 @@ def positives_to_tests_germany():
         positives.append(item.positives / 1000)
         positives_ratio.append((item.positives / item.tests))
 
-    plt.suptitle('Corona tests and positives compared\n(Source: Robert Koch Institute Germany)')
+    plt.suptitle('COVID-19 tests and positives compared\n(Source: Robert Koch Institute Germany)')
 
     plt.subplot(2, 1, 1)
     ax1 = plt.gca()
@@ -208,8 +208,8 @@ def total_corona_deaths_germany():
     plt.plot(t, d, ":y", label="total deaths 2019")
     plt.plot(t, e, ":g", label="total deaths 2018")
     plt.plot(t, f, ":c", label="total deaths 2017")
-    plt.plot(t, b, "-m", label="corona deaths 2020")
-    plt.plot(t, c, "-r", label="non-corona deaths 2020")
+    plt.plot(t, b, "-m", label="covid-19 deaths 2020")
+    plt.plot(t, c, "-r", label="non-covid-19 deaths 2020")
 
     plt.xlabel('Date')
     plt.ylabel('Deaths')
