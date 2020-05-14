@@ -33,7 +33,7 @@ def corona_cases_germany():
     t = []
     a = []
     b = []
-    window = 3
+    window = 4
     stride = 1
     for i in range(0, len(time) - (window-1), stride):
         t.append(time[i+window-1])
@@ -85,6 +85,7 @@ def positives_to_tests_germany():
     plt.subplot(2, 1, 1)
     ax1 = plt.gca()
     ax1.grid(True)
+    plt.xticks(np.arange(min(time), max(time)+1, 1.0))
     color = 'tab:blue'
     ax1.set_xlabel('Calendar Week')
     ax1.set_ylabel('Tests (in thousands)', color=color)
@@ -101,6 +102,7 @@ def positives_to_tests_germany():
     plt.subplot(2, 1, 2)
     ax1 = plt.gca()
     ax1.grid(True)
+    plt.xticks(np.arange(min(time), max(time)+1, 1.0))
     color = 'tab:blue'
     ax1.set_xlabel('Calendar Week')
     ax1.set_ylabel('Tests (in thousands)', color=color)
