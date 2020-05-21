@@ -181,7 +181,7 @@ def import_rki_report():
             entry = entry.replace("(", "")
             entry = entry.replace(")", "")
             entry = entry.replace("%", "")
-            entry = entry.replace(",", ".")
+            entry = entry.replace(",", "")
             new_row.append(num(entry))
         new_rows.append(new_row)
 
