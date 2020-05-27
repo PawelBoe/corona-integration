@@ -156,7 +156,7 @@ def import_deaths_germany():
 def import_rki_report():
     print("import rki report")
 
-    pattern = "[0-9]{2}  [0-9]{3}.[0-9]{3}  [0-9]+.[0-9]{3} \([0-9]+,[0-9]+%\)  [0-9]+"
+    pattern = "[0-9]{2}  [0-9]{3}.[0-9]{3}  [0-9]+.[0-9]{3}  [0-9]+,[0-9]  [0-9]+"
 
     def num(s):
         try:
@@ -165,7 +165,7 @@ def import_rki_report():
             return float(s)
 
     pdf_file = pdfplumber.open(cfg.path_rki_report)
-    page = pdf_file.pages[8]
+    page = pdf_file.pages[10]
     text = page.extract_text()
     result = re.findall(pattern, text)
 
