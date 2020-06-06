@@ -165,7 +165,7 @@ def import_rki_report():
             return float(s)
 
     pdf_file = pdfplumber.open(cfg.path_rki_report)
-    page = pdf_file.pages[10]
+    page = pdf_file.pages[11]
     text = page.extract_text()
     result = re.findall(pattern, text)
 
