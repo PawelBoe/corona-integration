@@ -47,7 +47,7 @@ Fields in Table: `deaths_germany`
 * date
 * age group start (lower age limit, e.g. 30 years)
 * age group end (upper age limit, e.g. 50 years)
-* deaths (deaths 
+* deaths
 * processed (time of insertion into database)
 
 Fields in Table `rki_tests`
