@@ -115,7 +115,7 @@ def import_corona_cases():
                     country = row["countriesAndTerritories"],
                     geo_id = row["geoId"],
                     country_code = row["countryterritoryCode"],
-                    population = safe_cast(row["popData2018"], int, 0),
+                    population = safe_cast(row["popData2019"], int, 0),
                     continent = row["continentExp"]
                 )
 
@@ -165,7 +165,7 @@ def import_rki_report():
             return float(s)
 
     pdf_file = pdfplumber.open(cfg.path_rki_report)
-    page = pdf_file.pages[11]
+    page = pdf_file.pages[10]
     text = page.extract_text()
     result = re.findall(pattern, text)
 
