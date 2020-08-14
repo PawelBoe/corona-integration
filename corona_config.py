@@ -17,7 +17,7 @@ backup_path_rki_report = "{}/backup_{}".format(data_folder, file_rki_report)
 
 link_corona_cases = "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv"
 link_deaths_germany = "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.xlsx?__blob=publicationFile"
-link_rki_report = "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/2020-08-05-de.pdf?__blob=publicationFile"
+link_rki_report = "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/2020-08-12-de.pdf?__blob=publicationFile"
 
 data_sources = [
     (link_corona_cases, path_corona_cases, backup_path_corona_cases),
