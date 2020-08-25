@@ -156,7 +156,7 @@ def import_deaths_germany():
 def import_rki_report():
     print("import rki report")
 
-    pattern = "[0-9]{2}  [0-9]{3}.[0-9]{3}  [0-9]+.[0-9]{3}  [0-9]+,[0-9]  [0-9]+"
+    pattern = "[0-9]{2}  [0-9]{3}.[0-9]{3}  [0-9]+.[0-9]{3}  [0-9]+,[0-9]+  [0-9]+"
 
     def num(s):
         try:
