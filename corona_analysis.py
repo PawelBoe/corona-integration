@@ -96,8 +96,8 @@ def positives_to_tests_germany():
     ax2.set_ylabel('Positives Ratio', color=color)
     ax2.plot(time, positives_ratio, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax1.set_ylim([0, 1000])
-    ax2.set_ylim([0, 0.55])
+    ax1.set_ylim([0, 1200])
+    ax2.set_ylim([0, 0.3])
 
     plt.subplot(2, 1, 2)
     ax1 = plt.gca()
@@ -113,7 +113,7 @@ def positives_to_tests_germany():
     ax2.set_ylabel('Absolute Positives (in thousands)', color=color)
     ax2.plot(time, positives, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax1.set_ylim([0, 1000])
+    ax1.set_ylim([0, 1200])
     ax2.set_ylim([0, 100])
 
 

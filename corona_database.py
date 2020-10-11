@@ -15,6 +15,40 @@ from models.DeathsGermany import DeathsGermany
 from models.CountryData import CountryData
 from models.RkiTests import RkiTests
 
+tests_report =[
+        (10, 124716, 3892, 3.12),
+        (11, 127457, 7582, 5.95),
+        (12, 348619 ,23820, 6.83),
+        (13, 361515, 31414, 8.69),
+        (14, 408348, 36885, 9.03),
+        (15, 380197, 30791, 8.10),
+        (16, 331902, 22082, 6.65),
+        (17, 363890, 18083, 4.97),
+        (18, 326788, 12608, 3.86),
+        (19, 403875, 10755, 2.66),
+        (20, 432666, 7233, 1.67),
+        (21, 353467, 5218, 1.48),
+        (22, 405269, 4310, 1.06),
+        (23, 340986, 3208, 0.94),
+        (24, 327196, 2816, 0.86),
+        (25, 388187, 5316, 1.37),
+        (26, 467413, 3689, 0.79),
+        (27, 507663, 3104, 0.61),
+        (28, 510551, 2992, 0.59),
+        (29, 538701, 3497, 0.65),
+        (30, 574883, 4539, 0.79),
+        (31, 586620, 5738, 0.98),
+        (32, 736171, 7335, 1.00),
+        (33, 891988, 8661, 0.97),
+        (34, 1094506, 9233, 0.84),
+        (35, 1121214, 8324, 0.74),
+        (36, 1099560, 8175, 0.74),
+        (37, 1162133, 10025, 0.86),
+        (38, 1149171, 13275, 1.16),
+        (39, 1168390, 14301, 1.22),
+        (40, 1095858, 17964, 1.64),
+        ]
+
 
 def safe_cast(val, to_type, default=None):
     try:
@@ -66,7 +100,7 @@ def create_database():
     create_tables()
     import_corona_cases()
     import_deaths_germany()
-    import_rki_report()
+    import_rki_report_manual()
 
 
 def main():
@@ -123,35 +157,40 @@ def import_corona_cases():
 def import_deaths_germany():
     print("import deaths germany table")
 
-    data_2020_xls = pd.read_excel(cfg.path_deaths_germany, "D_2020_Tage", header=8, index_col=0, nrows=13)
-    data_2019_xls = pd.read_excel(cfg.path_deaths_germany, "D_2019_Tage", header=8, index_col=0, nrows=13)
-    data_2018_xls = pd.read_excel(cfg.path_deaths_germany, "D_2018_Tage", header=8, index_col=0, nrows=13)
-    data_2017_xls = pd.read_excel(cfg.path_deaths_germany, "D_2017_Tage", header=8, index_col=0, nrows=13)
-    data_2016_xls = pd.read_excel(cfg.path_deaths_germany, "D_2016_Tage", header=8, index_col=0, nrows=13)
-
-    years = [
-        data_2020_xls,
-        data_2019_xls,
-        data_2018_xls,
-        data_2017_xls,
-        data_2016_xls
-    ]
+    data_xls = pd.read_excel(cfg.path_deaths_germany, "D_2016_2020_Tage", header=8, index_col=0, nrows=13)
 
     with db.transaction():
-        for year in years:
-            year = year.T
-            for age in year.columns:
-                for day in year.index:
-                    if not isinstance(day, datetime.date):
-                        continue
-                    if day == "Insgesamt":
-                        continue
-                    DeathsGermany.create(
-                        date = day,
-                        age_group_start = safe_cast(age[:3], int, 0),
-                        age_group_end = safe_cast(age[5:8], int, 150),
-                        deaths = safe_cast(year[age][day], int, 0)
-                    )
+        for year in data_xls.index:
+            for day in data_xls.columns:
+                if day == "Insgesamt":
+                    continue
+
+                month = day.split(".")[1]
+                d = day.split(".")[0]
+                datum = "{}-{}-{}".format(year, month, d)
+                deaths = safe_cast(data_xls[day][year], int, 0)
+                if deaths == 0:
+                    continue
+
+                DeathsGermany.create(
+                    date = datum,
+                    age_group_start = safe_cast(0, int, 0),
+                    age_group_end = safe_cast(150, int, 150),
+                    deaths = deaths
+                )
+
+def import_rki_report_manual():
+    print("import rki report manual")
+
+    with db.transaction():
+        for r in tests_report:
+            RkiTests.create(
+                calendar_week = safe_cast(r[0], int, 0),
+                tests = safe_cast(r[1], int, 0),
+                positives = safe_cast(r[2], int, 0),
+                # ignore percentage column
+                participating_laboratories = safe_cast(0, int, 0)
+            )
 
 def import_rki_report():
     print("import rki report")
