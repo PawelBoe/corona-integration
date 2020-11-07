@@ -14,44 +14,7 @@ from models.CoronaCases import CoronaCases
 from models.DeathsGermany import DeathsGermany
 from models.CountryData import CountryData
 from models.RkiTests import RkiTests
-
-tests_report =[
-        (10, 124716, 3892, 3.12),
-        (11, 127457, 7582, 5.95),
-        (12, 348619 ,23820, 6.83),
-        (13, 361515, 31414, 8.69),
-        (14, 408348, 36885, 9.03),
-        (15, 380197, 30791, 8.10),
-        (16, 331902, 22082, 6.65),
-        (17, 363890, 18083, 4.97),
-        (18, 326788, 12608, 3.86),
-        (19, 403875, 10755, 2.66),
-        (20, 432666, 7233, 1.67),
-        (21, 353467, 5218, 1.48),
-        (22, 405269, 4310, 1.06),
-        (23, 340986, 3208, 0.94),
-        (24, 327196, 2816, 0.86),
-        (25, 388187, 5316, 1.37),
-        (26, 467413, 3689, 0.79),
-        (27, 507663, 3104, 0.61),
-        (28, 510551, 2992, 0.59),
-        (29, 538701, 3497, 0.65),
-        (30, 574883, 4539, 0.79),
-        (31, 586620, 5738, 0.98),
-        (32, 736171, 7335, 1.00),
-        (33, 891988, 8661, 0.97),
-        (34, 1094506, 9233, 0.84),
-        (35, 1121214, 8324, 0.74),
-        (36, 1099560, 8175, 0.74),
-        (37, 1162133, 10025, 0.86),
-        (38, 1149171, 13275, 1.16),
-        (39, 1168390, 14301, 1.22),
-        (40, 1095858, 17964, 1.64),
-        (41, 1167428, 29003, 2.48),
-        (42, 1261398, 44733, 3.55),
-        (43, 1401443, 77168, 5.51),
-        (44, 1567083, 113822, 7.26),
-        ]
+from models.DiviBeds import DiviBeds
 
 
 def safe_cast(val, to_type, default=None):
@@ -105,6 +68,7 @@ def create_database():
     import_corona_cases()
     import_deaths_germany()
     import_rki_report_manual()
+    import_beds_germany()
 
 
 def main():
@@ -129,7 +93,8 @@ def create_tables():
         CoronaCases,
         CountryData,
         DeathsGermany,
-        RkiTests
+        RkiTests,
+        DiviBeds
     ]
     db.drop_tables(db_models)
     db.create_tables(db_models)
@@ -189,15 +154,19 @@ def import_deaths_germany():
 def import_rki_report_manual():
     print("import rki report manual")
 
-    with db.transaction():
-        for r in tests_report:
-            RkiTests.create(
-                calendar_week = safe_cast(r[0], int, 0),
-                tests = safe_cast(r[1], int, 0),
-                positives = safe_cast(r[2], int, 0),
-                # ignore percentage column
-                participating_laboratories = safe_cast(0, int, 0)
-            )
+    file_name = cfg.csv_path_tests_germany
+    with open(file_name, 'r') as file_pointer:
+        reader = csv.DictReader(file_pointer, delimiter=',')
+
+        with db.transaction():
+            for row in reader:
+                RkiTests.create(
+                    calendar_week = safe_cast(row["week"], int, 0),
+                    tests = safe_cast(row["test_count"], int, 0),
+                    positives = safe_cast(row["positives_count"], int, 0),
+                    # ignore percentage column
+                    participating_laboratories = safe_cast(0, int, 0)
+                )
 
 def import_rki_report():
     print("import rki report")
@@ -232,14 +201,43 @@ def import_rki_report():
         new_rows.append(new_row)
 
     with db.transaction():
-        for r in new_rows:
+        for row in new_rows:
             RkiTests.create(
-                calendar_week = safe_cast(r[0], int, 0),
-                tests = safe_cast(r[1], int, 0),
-                positives = safe_cast(r[2], int, 0),
+                calendar_week = safe_cast(row[0], int, 0),
+                tests = safe_cast(row[1], int, 0),
+                positives = safe_cast(row[2], int, 0),
                 # ignore percentage column
-                participating_laboratories = safe_cast(r[4], int, 0)
+                participating_laboratories = safe_cast(row[4], int, 0)
             )
+
+def import_beds_germany():
+    print("import beds germany")
+
+    file_name = cfg.csv_path_beds_used_germany
+    with open(file_name, 'r') as file_pointer:
+        reader = csv.DictReader(file_pointer, delimiter=',')
+
+        with db.transaction():
+            for row in reader:
+                DiviBeds.create(
+                    date = datetime.datetime.strptime(row["date"], "%Y-%m-%d"),
+                    used_beds = safe_cast(row["used_beds_total"], int, 0),
+                    corona_beds = safe_cast(row["used_beds_corona"], int, 0),
+                    free_beds = 0,
+                    emergency_beds = 0,
+                )
+
+    file_name = cfg.csv_path_beds_capacity_germany
+    with open(file_name, 'r') as file_pointer:
+        reader = csv.DictReader(file_pointer, delimiter=',')
+        with db.transaction():
+            for row in reader:
+                d = datetime.datetime.strptime(row["date"], "%Y-%m-%d")
+                DiviBeds.update(
+                    free_beds = safe_cast(row["free_beds"], int, 0),
+                    emergency_beds = safe_cast(row["emergency_beds"], int, 0),
+                ).where(DiviBeds.date == d).execute()
+
 
 
 if __name__ == '__main__':

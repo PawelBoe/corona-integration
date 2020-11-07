@@ -8,12 +8,14 @@ from models.BaseModel import db
 from models.CoronaCases import CoronaCases
 from models.DeathsGermany import DeathsGermany
 from models.RkiTests import RkiTests
+from models.DiviBeds import DiviBeds
 
 
 def main():
     corona_cases_germany()
     positives_to_tests_germany()
     total_corona_deaths_germany()
+    intensive_care_beds_germany()
 
 def corona_cases_germany():
     query = CoronaCases\
@@ -218,6 +220,49 @@ def total_corona_deaths_germany():
     plt.legend(loc="center left")
     plt.show()
 
+def intensive_care_beds_germany():
+    query = DiviBeds\
+        .select()\
+        .where(DiviBeds.date >= "2020-04-20")\
+        .order_by(DiviBeds.date)
+
+
+    time = []
+    emergency_time = []
+    free_beds = []
+    emergency_beds = []
+    used_beds = []
+    corona_beds = []
+    no_corona_beds = []
+    for item in query:
+        time.append(item.date)
+        free_beds.append(item.free_beds)
+        used_beds.append(item.used_beds)
+        corona_beds.append(item.corona_beds)
+        no_corona_beds.append(item.used_beds - item.corona_beds)
+        if item.emergency_beds:
+            emergency_beds.append(item.emergency_beds)
+            emergency_time.append(item.date)
+
+
+    plt.suptitle('Daily intensive care bed usage in Germany\n(Source: DIVI-Intensivregister)')
+
+    locator = mdates.AutoDateLocator()
+    formatter = mdates.ConciseDateFormatter(locator)
+    plt.gca().xaxis.set_major_locator(locator)
+    plt.gca().xaxis.set_major_formatter(formatter)
+    plt.gca().grid(True)
+
+    plt.plot(time, free_beds, "-g", label="free (current capacity)")
+    plt.plot(emergency_time, emergency_beds, ":g", label="free (emergency capacity)")
+    plt.plot(time, used_beds, "-m", label="used (all patients)")
+    plt.plot(time, corona_beds, "-r", label="used (corona patients)")
+    plt.plot(time, no_corona_beds, "-b", label="used (non-corona patients)")
+
+    plt.xlabel('Date')
+    plt.ylabel('Beds')
+    plt.legend(loc=(0.2, 0.15))
+    plt.show()
 
 if __name__ == '__main__':
     main()

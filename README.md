@@ -13,7 +13,7 @@ To install the required packages run the following commands:
 
 
 ## Creating the database
-If you follow these steps you will find a `data.sqlite` file in the `/data` folder which will contain all the integrated datasets in its tables. Once the original data sources change you can re-run the download and create commands to update the database.
+If you follow these steps you will find a `data.sqlite` file in the `/data` folder which will contain all the integrated datasets in its tables. Once the original data sources change you can re-run the download and create commands to update the database. Some data sources are directly present in the ´/sources´ folder because an automated download is more cumbersome for me than to manually pull these sets into this repository.
 
 ### Downloading the datasets
 `python corona_database.py --download;`
@@ -62,7 +62,8 @@ Fields in Table `rki_tests`
 The integrated sources so far consist of:
 * the total number of COVID-19 cases reported worlwide, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
 * the total number of all cause deaths in Germany, reported by the Statistisches Bundesamt (https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html)
-* the total number of performed COVID-19 tests in Germany, reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Nov_2020/2020-11-04-de.pdf)
+* the total number of performed COVID-19 tests in Germany, reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Gesamt.html)
+* the total number of used intensive care beds in germany, reported by the DIVI-Intensivregister in Germany (https://www.intensivregister.de/#/intensivregister?tab=kartenansicht)
 
 
 ## Results
@@ -74,15 +75,19 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 
 ![](results/corona_total_deaths_germany.png)
 
-### New COVID-19 cases/deaths per day in germany
-The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 3 days before (sliding window smoothing with a window size of 4 and a stride of 1).
+### Total intensive care bed usage in relation to COVID-19 bed usage
+The source code can be found in the function `intensive_care_beds_germany` in `corona_analysis.py`. The measurement starts off at the 20th of april, when the corona related bed usage was at its peak. Earlier values in the graph are more inaccurate since fewer intensive care facilities where participating in the data collection right away.
 
-**Note**: One can see that (if scaled to match) the COVID-19 cases and the deaths are correlated by a delay of about 10 to 15 days.
-
-![](results/corona_new_cases_germany.png)
+![](results/intensive_care_beds_germany.png)
 
 ### COVID-19 positives compared to total tests
 The source code can be found in the function `positives_to_tests_germany` in `corona_analysis.py`. 
 
 ![](results/test_positive_ratio_germany.png)
 
+### New COVID-19 cases/deaths per day in germany
+The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 3 days before (sliding window smoothing with a window size of 4 and a stride of 1).
+
+**Note**: One can see that (if scaled to match) the COVID-19 cases and the deaths are correlated by a delay of about 10 to 15 days.
+
+![](results/corona_new_cases_germany.png)
