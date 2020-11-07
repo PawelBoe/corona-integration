@@ -57,6 +57,14 @@ Fields in Table `rki_tests`
 * participating laboratories
 * processed (time of insertion into database)
 
+Fields in Table `divi_beds`
+* date
+* free beds
+* emergency beds
+* used beds (all patients)
+* used beds (corona patients)
+* processed (time of insertion into database)
+
 
 ## Sources
 The integrated sources so far consist of:
@@ -76,7 +84,7 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 ![](results/corona_total_deaths_germany.png)
 
 ### Total intensive care bed usage in relation to COVID-19 bed usage
-The source code can be found in the function `intensive_care_beds_germany` in `corona_analysis.py`. The measurement starts off at the 20th of april, when the corona related bed usage was at its peak. Earlier values in the graph are more inaccurate since fewer intensive care facilities where participating in the data collection right away.
+The source code can be found in the function `intensive_care_beds_germany` in `corona_analysis.py`. The measurement starts off at the 20th of April, when the corona related bed usage was at its peak. Earlier values in the graph are more inaccurate since fewer intensive care facilities where participating in the data collection.
 
 ![](results/intensive_care_beds_germany.png)
 

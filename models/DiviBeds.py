@@ -7,7 +7,7 @@ from models.BaseModel import BaseModel
 
 class DiviBeds(BaseModel):
     class Meta:
-        table_name = "civi_beds"
+        table_name = "divi_beds"
 
     date = DateField()
     used_beds = IntegerField()
