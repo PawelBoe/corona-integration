@@ -73,6 +73,8 @@ The integrated sources so far consist of:
 * the total number of performed COVID-19 tests in Germany, reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Gesamt.html)
 * the total number of used intensive care beds in germany, reported by the DIVI-Intensivregister in Germany (https://www.intensivregister.de)
 
+The ´/sources´ folder contains data from the aforementioned open/free sources that was manually integrated from pdf and csv files because automated retreival was more cumbersome for me.
+
 
 ## Results
 
