@@ -86,6 +86,8 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 ### Total intensive care bed usage in relation to COVID-19 bed usage
 The source code can be found in the function `intensive_care_beds_germany` in `corona_analysis.py`. The measurement starts off at the 20th of April, when the corona related bed usage was at its peak. Earlier values in the graph are more inaccurate since fewer intensive care facilities where participating in the data collection.
 
+**Note**: One can see that even though the covid-19 related bed usage goes up, no total incerase in intensive care is observed. This is a strange contrast to the expected behavior, which would be an increase in intensive care patients and a constant bed usage by non-covid-19 patients (due to the excess of free bed capacity in Germany). Actually there is a decrease in non-covid-19 patients which suggests a hidden overlab between these two groups (non-covid-19 and covid-19 patients).
+
 ![](results/intensive_care_beds_germany.png)
 
 ### COVID-19 positives compared to total tests

@@ -256,8 +256,8 @@ def intensive_care_beds_germany():
     plt.plot(time, free_beds, "-g", label="free (current capacity)")
     plt.plot(emergency_time, emergency_beds, ":g", label="free (emergency capacity)")
     plt.plot(time, used_beds, "-m", label="used (all patients)")
-    plt.plot(time, corona_beds, "-r", label="used (corona patients)")
-    plt.plot(time, no_corona_beds, "-b", label="used (non-corona patients)")
+    plt.plot(time, corona_beds, "-r", label="used (covid-19 patients)")
+    plt.plot(time, no_corona_beds, "-b", label="used (non-covid-19 patients)")
 
     plt.xlabel('Date')
     plt.ylabel('Beds')
