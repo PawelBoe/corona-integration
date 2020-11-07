@@ -48,6 +48,9 @@ tests_report =[
         (39, 1168390, 14301, 1.22),
         (40, 1095858, 17964, 1.64),
         (41, 1167428, 29003, 2.48),
+        (42, 1261398, 44733, 3.55),
+        (43, 1401443, 77168, 5.51),
+        (44, 1567083, 113822, 7.26),
         ]
 
 
@@ -158,7 +161,7 @@ def import_corona_cases():
 def import_deaths_germany():
     print("import deaths germany table")
 
-    data_xls = pd.read_excel(cfg.path_deaths_germany, "D_2016_2020_Tage", header=8, index_col=0, nrows=13)
+    data_xls = pd.read_excel(cfg.path_deaths_germany, "D_2016_2020_Tage", header=8, index_col=0, nrows=13, engine="openpyxl")
 
     with db.transaction():
         for year in data_xls.index:
@@ -166,10 +169,13 @@ def import_deaths_germany():
                 if day == "Insgesamt":
                     continue
 
-                month = day.split(".")[1]
-                d = day.split(".")[0]
-                datum = "{}-{}-{}".format(year, month, d)
-                deaths = safe_cast(data_xls[day][year], int, 0)
+                try:
+                    month = day.split(".")[1]
+                    d = day.split(".")[0]
+                    datum = "{}-{}-{}".format(year, month, d)
+                    deaths = safe_cast(data_xls[day][year], int, 0)
+                except:
+                    continue
                 if deaths == 0:
                     continue
 
