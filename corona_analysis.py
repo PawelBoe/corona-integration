@@ -229,6 +229,7 @@ def intensive_care_beds_germany():
 
     time = []
     emergency_time = []
+    all_beds = []
     free_beds = []
     emergency_beds = []
     used_beds = []
@@ -236,6 +237,7 @@ def intensive_care_beds_germany():
     no_corona_beds = []
     for item in query:
         time.append(item.date)
+        all_beds.append(item.free_beds + item.used_beds + item.emergency_beds)
         free_beds.append(item.free_beds)
         used_beds.append(item.used_beds)
         corona_beds.append(item.corona_beds)
@@ -253,15 +255,16 @@ def intensive_care_beds_germany():
     plt.gca().xaxis.set_major_formatter(formatter)
     plt.gca().grid(True)
 
+    plt.plot(time, all_beds, "-k", label="all (free + emergency + used)")
     plt.plot(time, free_beds, "-g", label="free (current capacity)")
-    plt.plot(emergency_time, emergency_beds, ":g", label="free (emergency capacity)")
+    plt.plot(emergency_time, emergency_beds, ":g", label="emergency capacity")
     plt.plot(time, used_beds, "-m", label="used (all patients)")
     plt.plot(time, corona_beds, "-r", label="used (covid-19 patients)")
     plt.plot(time, no_corona_beds, "-b", label="used (non-covid-19 patients)")
 
     plt.xlabel('Date')
     plt.ylabel('Beds')
-    plt.legend(loc=(0.2, 0.15))
+    plt.legend(loc=(0.6, 0.6))
     plt.show()
 
 if __name__ == '__main__':
