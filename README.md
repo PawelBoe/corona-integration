@@ -98,7 +98,7 @@ The source code can be found in the function `positives_to_tests_germany` in `co
 ![](results/test_positive_ratio_germany.png)
 
 ### New COVID-19 cases/deaths per day in germany
-The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 3 days before (sliding window smoothing with a window size of 7 and a stride of 1).
+The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 7 days before (sliding window smoothing with a window size of 7 and a stride of 1).
 
 **Note**: One can see that (if scaled to match) the COVID-19 cases and the deaths are correlated by a delay of about 10 to 15 days.
 
