@@ -35,7 +35,7 @@ def corona_cases_germany():
     t = []
     a = []
     b = []
-    window = 4
+    window = 7
     stride = 1
     for i in range(0, len(time) - (window-1), stride):
         t.append(time[i+window-1])
