@@ -96,6 +96,9 @@ The source code can be found in the function `total_corona_deaths_germany` in `c
 
 ![](results/corona_total_deaths_germany.png)
 
+This curve shows the new covid-19 data that is now provided weekly by the EU Open Data Portal. That is why the covid-19 samples appear less frequently than the total death toll data and thus look less detailed. The years overlap in this graph, which is why the samples of previous years repeat at the outskirts of the year scale.
+![](results/corona_total_deaths_germany_weekly.png)
+
 ### Total intensive care bed usage in relation to COVID-19 bed usage
 The source code can be found in the function `intensive_care_beds_germany` in `corona_analysis.py`. The measurement starts off at the 20th of April, when the corona related bed usage was at its peak. Earlier values in the graph are more inaccurate since fewer intensive care facilities where participating in the data collection.
 

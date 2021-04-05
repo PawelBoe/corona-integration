@@ -9,7 +9,7 @@ class CoronaCasesWeekly(BaseModel):
     class Meta:
         table_name = "corona_cases_weekly"
 
-    date_reported = DateTimeField()
+    date_reported = DateField()
     year = IntegerField()
     week = IntegerField()
     cases = IntegerField()

@@ -16,6 +16,7 @@ def main():
     corona_cases_germany()
     positives_to_tests_germany()
     total_corona_deaths_germany()
+    total_corona_deaths_germany_weekly()
     intensive_care_beds_germany()
 
 def corona_cases_germany():
@@ -215,6 +216,92 @@ def total_corona_deaths_germany():
     plt.plot(t, f, ":c", label="total deaths 2017")
     plt.plot(t, b, "-m", label="covid-19 deaths 2020")
     plt.plot(t, c, "-r", label="non-covid-19 deaths 2020")
+
+    plt.xlabel('Date')
+    plt.ylabel('Deaths')
+    plt.legend(loc="center left")
+    plt.show()
+
+def total_corona_deaths_germany_weekly():
+    query_covid = CoronaCasesWeekly\
+        .select(CoronaCasesWeekly.deaths, CoronaCasesWeekly.date_reported, DeathsGermany.deaths)\
+        .join(DeathsGermany, attr="total", on=(DeathsGermany.date == CoronaCasesWeekly.date_reported)) \
+        .where(CoronaCasesWeekly.country_code == "DEU")\
+        .where(CoronaCasesWeekly.date_reported >= "2020-01-01")\
+        .order_by(CoronaCasesWeekly.date_reported)
+
+    query_2020 = DeathsGermany\
+        .select()\
+        .where(DeathsGermany.age_group_start == 0)\
+        .where(DeathsGermany.age_group_end == 150)\
+        .where(DeathsGermany.date >= "2020-01-01")\
+        .where(DeathsGermany.date < "2021-03-15")\
+        .order_by(DeathsGermany.date)
+
+    query_2019 = DeathsGermany\
+        .select()\
+        .where(DeathsGermany.age_group_start == 0)\
+        .where(DeathsGermany.age_group_end == 150)\
+        .where(DeathsGermany.date >= "2019-01-01")\
+        .where(DeathsGermany.date < "2020-03-15")\
+        .order_by(DeathsGermany.date)
+
+    query_2018 = DeathsGermany\
+        .select()\
+        .where(DeathsGermany.age_group_start == 0)\
+        .where(DeathsGermany.age_group_end == 150)\
+        .where(DeathsGermany.date >= "2018-01-01")\
+        .where(DeathsGermany.date < "2019-03-15")\
+        .order_by(DeathsGermany.date)
+
+    query_2017 = DeathsGermany\
+        .select()\
+        .where(DeathsGermany.age_group_start == 0)\
+        .where(DeathsGermany.age_group_end == 150)\
+        .where(DeathsGermany.date >= "2017-01-01")\
+        .where(DeathsGermany.date < "2018-03-15")\
+        .order_by(DeathsGermany.date)
+
+    covid_time = []
+    covid_deaths = []
+    non_covid_deaths = []
+    for item in query_covid:
+        covid_time.append(item.date_reported)
+        covid_deaths.append(item.deaths / 7)
+        non_covid_deaths.append(item.total.deaths - (item.deaths/7))
+
+    time = []
+    total_deaths_2020 = []
+    for item in query_2020:
+        time.append(item.date)
+        total_deaths_2020.append(item.deaths)
+
+    total_deaths_2019 = []
+    for item in query_2019:
+        total_deaths_2019.append(item.deaths)
+
+    total_deaths_2018 = []
+    for item in query_2018:
+        total_deaths_2018.append(item.deaths)
+
+    total_deaths_2017 = []
+    for item in query_2017:
+        total_deaths_2017.append(item.deaths)
+
+    plt.suptitle('Daily Deaths in Germany (weekly covid-19)\n(Sources: EU Open Data Portal, Statistisches Bundesamt)')
+
+    locator = mdates.AutoDateLocator()
+    formatter = mdates.ConciseDateFormatter(locator)
+    plt.gca().xaxis.set_major_locator(locator)
+    plt.gca().xaxis.set_major_formatter(formatter)
+    plt.gca().grid(True)
+
+    plt.plot(time[:len(total_deaths_2020)], total_deaths_2020, "-b", label="total deaths 2020/21")
+    plt.plot(time[:len(total_deaths_2019)],total_deaths_2019, ":y", label="total deaths 2019/20")
+    plt.plot(time[:len(total_deaths_2018)],total_deaths_2018, ":g", label="total deaths 2018/19")
+    plt.plot(time[:len(total_deaths_2017)], total_deaths_2017, ":c", label="total deaths 2017/18")
+    plt.plot(covid_time, covid_deaths, "-m", label="covid-19 deaths 2020/21")
+    plt.plot(covid_time, non_covid_deaths, "-r", label="non-covid-19 deaths 2020/21")
 
     plt.xlabel('Date')
     plt.ylabel('Deaths')
