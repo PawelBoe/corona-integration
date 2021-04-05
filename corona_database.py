@@ -126,7 +126,7 @@ def import_corona_cases():
 def import_deaths_germany():
     print("import deaths germany table")
 
-    data_xls = pd.read_excel(cfg.path_deaths_germany, "D_2016_2020_Tage", header=8, index_col=0, nrows=13, engine="openpyxl")
+    data_xls = pd.read_excel(cfg.path_deaths_germany, "D_2016_2021_Tage", header=8, index_col=0, nrows=13, engine="openpyxl")
 
     with db.transaction():
         for year in data_xls.index:
@@ -213,7 +213,7 @@ def import_rki_report():
 def import_beds_germany():
     print("import beds germany")
 
-    file_name = cfg.csv_path_beds_used_germany
+    file_name = cfg.csv_path_beds_germany
     with open(file_name, 'r') as file_pointer:
         reader = csv.DictReader(file_pointer, delimiter=',')
 
@@ -223,22 +223,9 @@ def import_beds_germany():
                     date = datetime.datetime.strptime(row["date"], "%Y-%m-%d"),
                     used_beds = safe_cast(row["used_beds_total"], int, 0),
                     corona_beds = safe_cast(row["used_beds_corona"], int, 0),
-                    free_beds = 0,
-                    emergency_beds = 0,
-                )
-
-    file_name = cfg.csv_path_beds_capacity_germany
-    with open(file_name, 'r') as file_pointer:
-        reader = csv.DictReader(file_pointer, delimiter=',')
-        with db.transaction():
-            for row in reader:
-                d = datetime.datetime.strptime(row["date"], "%Y-%m-%d")
-                DiviBeds.update(
                     free_beds = safe_cast(row["free_beds"], int, 0),
                     emergency_beds = safe_cast(row["emergency_beds"], int, 0),
-                ).where(DiviBeds.date == d).execute()
-
-
+                )
 
 if __name__ == '__main__':
     main()

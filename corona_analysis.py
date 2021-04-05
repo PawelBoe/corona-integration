@@ -55,8 +55,8 @@ def corona_cases_germany():
     ax2.set_ylabel('New Deaths', color=color)
     ax2.plot(t, b, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax1.set_ylim([0, 20000])
-    ax2.set_ylim([0, 2000])
+    ax1.set_ylim([0, 25000])
+    ax2.set_ylim([0, 2500])
     locator = mdates.AutoDateLocator()
     formatter = mdates.ConciseDateFormatter(locator)
     ax1.xaxis.set_major_locator(locator)
@@ -98,8 +98,8 @@ def positives_to_tests_germany():
     ax2.set_ylabel('Positives Ratio', color=color)
     ax2.plot(time, positives_ratio, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax1.set_ylim([0, 1700])
-    ax2.set_ylim([0, 0.35])
+    ax1.set_ylim([0, 2000])
+    ax2.set_ylim([0, 0.45])
 
     plt.subplot(2, 1, 2)
     ax1 = plt.gca()
@@ -115,8 +115,8 @@ def positives_to_tests_germany():
     ax2.set_ylabel('Absolute Positives (in thousands)', color=color)
     ax2.plot(time, positives, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax1.set_ylim([0, 1700])
-    ax2.set_ylim([0, 140])
+    ax1.set_ylim([0, 2000])
+    ax2.set_ylim([0, 200])
 
 
     plt.show()
