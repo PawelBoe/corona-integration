@@ -11,6 +11,7 @@ import corona_config as cfg
 
 from models.BaseModel import db
 from models.CoronaCases import CoronaCases
+from models.CoronaCasesWeekly import CoronaCasesWeekly
 from models.DeathsGermany import DeathsGermany
 from models.CountryData import CountryData
 from models.RkiTests import RkiTests
@@ -66,6 +67,7 @@ def download():
 def create_database():
     create_tables()
     import_corona_cases()
+    import_corona_cases_weekly()
     import_deaths_germany()
     import_rki_report_manual()
     import_beds_germany()
@@ -91,6 +93,7 @@ def main():
 def create_tables():
     db_models = [
         CoronaCases,
+        CoronaCasesWeekly,
         CountryData,
         DeathsGermany,
         RkiTests,
@@ -122,6 +125,35 @@ def import_corona_cases():
                     continent = row["continentExp"]
                 )
 
+def import_corona_cases_weekly():
+    print("import corona cases weekly table")
+
+    file_name = cfg.path_corona_cases_weekly
+    with open(file_name, 'r') as file_pointer:
+        reader = csv.DictReader(file_pointer, delimiter=',')
+
+        with db.transaction():
+            for row in reader:
+                year_week = row["year_week"]
+                date = datetime.datetime.strptime(year_week + "-1", "%Y-%W-%w")
+                year, week, day = date.isocalendar()
+
+                entry, created = CoronaCasesWeekly.get_or_create(
+                    date_reported = date,
+                    year = safe_cast(year, int, 0),
+                    week = safe_cast(week, int, 0),
+                    country_code = row["country_code"],
+                    population = safe_cast(row["population"], int, 0),
+                    continent = row["continent"],
+                    defaults = {"deaths" : 0, "cases" : 0}
+                )
+
+                if row["indicator"] == "cases":
+                    entry.cases = safe_cast(row["weekly_count"], int, 0)
+                elif row["indicator"] == "deaths":
+                    entry.deaths = safe_cast(row["weekly_count"], int, 0)
+
+                entry.save()
 
 def import_deaths_germany():
     print("import deaths germany table")

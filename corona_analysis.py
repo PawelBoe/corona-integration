@@ -6,6 +6,7 @@ from matplotlib.ticker import FuncFormatter as frmt
 
 from models.BaseModel import db
 from models.CoronaCases import CoronaCases
+from models.CoronaCasesWeekly import CoronaCasesWeekly
 from models.DeathsGermany import DeathsGermany
 from models.RkiTests import RkiTests
 from models.DiviBeds import DiviBeds
@@ -18,11 +19,11 @@ def main():
     intensive_care_beds_germany()
 
 def corona_cases_germany():
-    query = CoronaCases\
+    query = CoronaCasesWeekly\
         .select()\
-        .where(CoronaCases.geo_id == "DE")\
-        .where(CoronaCases.date_reported >= "2020-02-15")\
-        .order_by(CoronaCases.date_reported)
+        .where(CoronaCasesWeekly.country_code == "DEU")\
+        .where(CoronaCasesWeekly.date_reported >= "2020-02-15")\
+        .order_by(CoronaCasesWeekly.date_reported)
 
     time = []
     cases = []
@@ -35,14 +36,14 @@ def corona_cases_germany():
     t = []
     a = []
     b = []
-    window = 7
+    window = 1
     stride = 1
     for i in range(0, len(time) - (window-1), stride):
         t.append(time[i+window-1])
         a.append((sum(cases[i:i+window])) / window)
         b.append((sum(deaths[i:i+window])) / window)
 
-    plt.suptitle('New COVID-19 Cases in Germany\n(Source: EU Open Data Portal)')
+    plt.suptitle('New COVID-19 Cases in Germany (weekly)\n(Source: EU Open Data Portal)')
 
     ax1 = plt.gca()
     color = 'tab:blue'
@@ -55,8 +56,8 @@ def corona_cases_germany():
     ax2.set_ylabel('New Deaths', color=color)
     ax2.plot(t, b, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax1.set_ylim([0, 25000])
-    ax2.set_ylim([0, 2500])
+    ax1.set_ylim([0, 200000])
+    ax2.set_ylim([0, 20000])
     locator = mdates.AutoDateLocator()
     formatter = mdates.ConciseDateFormatter(locator)
     ax1.xaxis.set_major_locator(locator)
@@ -82,7 +83,7 @@ def positives_to_tests_germany():
         positives.append(item.positives / 1000)
         positives_ratio.append((item.positives / item.tests))
 
-    plt.suptitle('COVID-19 tests and positives compared\n(Source: Robert Koch Institute Germany)')
+    plt.suptitle('COVID-19 tests and positives compared (weekly)\n(Source: Robert Koch Institute Germany)')
 
     plt.subplot(2, 1, 1)
     ax1 = plt.gca()

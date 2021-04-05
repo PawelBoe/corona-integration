@@ -29,7 +29,7 @@ If you follow these steps you will find a `data.sqlite` file in the `/data` fold
 
 
 ## Database schema
-Fields in Table: `corona_cases`
+Fields in Table: `corona_cases` (obsolete, only till 14. December 2020)
 * date reported
 * day
 * month
@@ -38,6 +38,16 @@ Fields in Table: `corona_cases`
 * deaths
 * country
 * geo id
+* country code
+* population
+* continent
+* processed (time of insertion into database)
+
+Fields in Table: `corona_cases_weekly` (new, since 14. December 2020)
+* year
+* week
+* cases
+* deaths
 * country code
 * population
 * continent
@@ -68,7 +78,8 @@ Fields in Table `divi_beds`
 
 ## Sources
 The integrated sources so far consist of:
-* the total number of COVID-19 cases reported worlwide, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
+* the total number of COVID-19 cases reported worlwide daily (obsolete), comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) 
+* the total number of COVID-19 cases reported worlwide weekly, comming from the EU Open Data Portal (https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data-weekly-from-17-december-2020) 
 * the total number of all cause deaths in Germany, reported by the Statistisches Bundesamt (https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html)
 * the total number of performed COVID-19 tests in Germany, reported by the Robert Koch Institute (https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Testzahl.html)
 * the total number of used intensive care beds in germany, reported by the DIVI-Intensivregister in Germany (https://www.intensivregister.de)
@@ -93,12 +104,12 @@ The source code can be found in the function `intensive_care_beds_germany` in `c
 ![](results/intensive_care_beds_germany.png)
 
 ### COVID-19 positives compared to total tests
-The source code can be found in the function `positives_to_tests_germany` in `corona_analysis.py`. 
+The source code can be found in the function `positives_to_tests_germany` in `corona_analysis.py`. This curve shows the weekly total tests taken in relation to the positive results.
 
 ![](results/test_positive_ratio_germany.png)
 
 ### New COVID-19 cases/deaths per day in germany
-The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve is smoothed by averaging each day with 7 days before (sliding window smoothing with a window size of 7 and a stride of 1).
+The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve shows the weekly sum of cases and deaths in germany.
 
 **Note**: One can see that (if scaled to match) the COVID-19 cases and the deaths are correlated by a delay of about 10 to 15 days.
 
