@@ -108,7 +108,7 @@ The source code can be found in the function `positives_to_tests_germany` in `co
 
 ![](results/test_positive_ratio_germany.png)
 
-### New COVID-19 cases/deaths per day in germany
+### New COVID-19 cases/deaths per week in germany
 The source code can be found in the function `corona_cases_germany` in `corona_analysis.py`. This curve shows the weekly sum of cases and deaths in germany.
 
 **Note**: One can see that (if scaled to match) the COVID-19 cases and the deaths are correlated by a delay of about 10 to 15 days.
